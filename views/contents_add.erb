@@ -1,0 +1,6 @@
+<h1>コンテンツ追加ページ</h1>
+<h2>追加先：<%= @roulette.name %></h2>
+<form action="/contents/add/<%= @roulette.id %>" method="post">
+    <input type="input" placeholder="例：恥ずかしいセリフ・語尾がにゃーetc..." name="name">
+    <input type="submit" value="追加">
+</form>

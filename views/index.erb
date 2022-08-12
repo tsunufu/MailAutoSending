@@ -1,0 +1,16 @@
+<h1>ルーレット一覧</h1>
+        <% @roulette.each do |roulettes| %>
+        
+            <h1><%= roulettes.name %></h1>
+            <form action="/info/<%= roulettes.id %>" method="get">
+                <input type="submit" value="これにする！">
+            </form>
+            <form action="/remove/<%= roulettes.id %>" method="get">
+                <input type="submit" value="削除">
+            </form>
+
+        <% end %>
+
+<form action="/roulette/add" method="get">
+<input type="submit" value="ルーレットを追加" class="bottomright">
+</form>

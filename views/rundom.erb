@@ -1,0 +1,6 @@
+<h1>けっかはっぴょー！</h1>
+<h2>回したルーレット：<%= @roulette.name %></h2>
+<p>結果：<%= @random[0].title %></p>
+<form action="/info/<%= @roulette.id %>" method="get">
+    <input type="submit" value="戻る">
+</form>

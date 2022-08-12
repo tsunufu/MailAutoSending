@@ -1,0 +1,23 @@
+<h1><%= @roulette.name %>ルーレット</h1>
+<% unless @contents == nil %>
+    <h2>追加されているワード</h2>
+        <% @contents.each do |content| %>
+            <p><%= content.title %></p>
+            <form action="/delete/<%= content.id %>" method="get">
+                <input type="submit" value="削除">
+            </form>
+        <% end %>
+    <form action="/rundom/<%= @roulette.id %>" method="get">
+        <input type="submit" value="抽選！">
+    </form>
+<% else %>
+    <h1>まだなにも追加されていません</h1>
+<% end %>
+
+<form action="/contents/add/<%= @roulette.id %>" method="get">
+    <input type="submit" value="追加" class="bottomright">
+</form>
+
+<form action="/" method="get">
+    <input type="submit" value="戻る">
+</form>
