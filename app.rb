@@ -60,7 +60,7 @@ get '/rundom/:id' do
     @roulette = Groups.find(params[:id])
     array = Contents.where(group_id: params[:id]).all
     @random = array.shuffle[0..9]
-    sleep 0
+    sleep 5
     erb :rundom
 end
 
