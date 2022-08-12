@@ -72,6 +72,6 @@ end
 
 get '/remove/:id' do
     Groups.find(params[:id]).destroy
-    Contents.where(group_id: params[:id]).destroy
+    Contents.where(group_id: params[:id]).destroy_all
     redirect '/'
 end
