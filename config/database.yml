@@ -1,7 +1,7 @@
 default_env: &default
   adapter: postgresql
   encoding: unicode
-  database: c_sls
+  database: c_mailtest
 
 development:
   <<: *default

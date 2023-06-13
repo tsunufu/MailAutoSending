@@ -14,12 +14,28 @@ GEM
       zeitwerk (~> 2.3)
     bcrypt (3.1.16)
     concurrent-ruby (1.1.9)
+    date (3.3.3)
     i18n (1.8.11)
       concurrent-ruby (~> 1.0)
+    mail (2.8.1)
+      mini_mime (>= 0.1.1)
+      net-imap
+      net-pop
+      net-smtp
+    mini_mime (1.1.2)
     minitest (5.15.0)
     multi_json (1.15.0)
     mustermann (1.1.1)
       ruby2_keywords (~> 0.0.1)
+    net-imap (0.3.4)
+      date
+      net-protocol
+    net-pop (0.1.2)
+      net-protocol
+    net-protocol (0.2.1)
+      timeout
+    net-smtp (0.3.3)
+      net-protocol
     pg (1.2.3)
     rack (2.2.3)
     rack-protection (2.1.0)
@@ -41,6 +57,7 @@ GEM
       sinatra (= 2.1.0)
       tilt (~> 2.0)
     tilt (2.0.10)
+    timeout (0.3.2)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     webrick (1.7.0)
@@ -52,6 +69,7 @@ PLATFORMS
 DEPENDENCIES
   activerecord (~> 6.1)
   bcrypt
+  mail
   pg (~> 1.2)
   rake (~> 13.0)
   sinatra (~> 2.1)

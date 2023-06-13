@@ -3,75 +3,78 @@ Bundler.require
 require 'sinatra/reloader' if development?
 require 'open-uri'
 require 'sinatra/json'
+require 'mail'
 
 require './models'
 
-use Rack::Session::Cookie
 
+
+use Rack::Session::Cookie,
+    secret: 'set_your_secret_key'
+    
+    
+options = {
+  :address  => "smtp.gmail.com",
+  :port   => 587,
+  :domain  => "gmail.com",
+  :user_name  => "TestRyosukeTsunufu@gmail.com",
+  :password  => "iezmphqqlzwpfvhd",
+  :authentication => 'plain',
+  :enable_starttls_auto => true  
+}
+
+
+Mail.defaults do
+  delivery_method :smtp, options
+end
 
 
 get '/' do
-    @roulette = Groups.all.order('id desc')
     erb :index
 end
 
-get '/roulette/add' do
-    erb :roulette_add
+post '/send' do
+    
+    adress = params[:mailadress]
+    title  = params[:title]
+    body   = params[:body]
+    
+    begin    
+        @mail = Mail.deliver do
+            from    "TestRyosukeTsunufu@gmail.com"
+            to      adress
+            subject title
+            body    body
+        end
+        @mail.deliver!
+    rescue => e
+        puts "エラーが発生しました：#{e.message}"
+        redirect '/error'
+    end
+    
+    # mail.delivery_method(:smtp,
+    #   authentication: nil,
+    #   user_name:      "websmailtest400@gmail.com",
+    #   password:       "ktest111"
+    # )
+    
+    # mail.delivery_method(:smtp,
+    #   user_name:      "websmailtest400@gmail.com",
+    #   password:       "ktest111"
+    # )
+    
+    # mail.delivery_method(:smtp,
+    #   user_name:      "websmailtest400@gmail.com",
+    #   password:       "ktest111",
+    #   authentication: :login
+    # )
+  
+   
+
+    redirect '/' 
+    
 end
 
-post '/roulette/add' do
-    Groups.create(name: params[:name])
-    redirect '/'
-end
-
-
-get '/info/:id' do
-    @roulette = Groups.find(params[:id])
-    content = Contents.where(group_id: params[:id])
-     unless content
-        content = nil
-     else
-         if content.class == "array"
-            @contents = content.all.order('id desc')
-         else
-            @contents = content.all.order('id desc')
-         end
-     end
-    array = Contents.all
-    @random = array.shuffle[0..9]
-     erb :roulette
-end
-
-
-get '/contents/add/:id' do
-    @roulette = Groups.find(params[:id])
-    erb :contents_add
-end
-
-
-
-post '/contents/add/:id' do
-    Contents.create(title: params[:name], group_id: params[:id])
-    redirect '/info/' + params[:id]
-end
-
-
-get '/rundom/:id' do
-    @roulette = Groups.find(params[:id])
-    array = Contents.where(group_id: params[:id]).all
-    @random = array.shuffle[0..9]
-    sleep 5
-    erb :rundom
-end
-
-
-get '/delete/:id' do
-    Contents.find(params[:id]).destroy
-    redirect '/'
-end
-
-get '/remove/:id' do
-    Groups.find(params[:id]).destroy
-    Contents.where(group_id: params[:id]).destroy_all
-    redirect '/'
+get '/error' do
+    erb :error
 end
